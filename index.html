@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priyanka Gautam</title>
+<meta name="description" content="Research site of Dr. Priyanka Gautam: graph learning for resilient infrastructure and network influence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bar:#4B2E83;--ink:#222;--muted:#666;--line:#E6E6E6;--bg:#fff;--link:#4B2E83}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.8 "Open Sans",system-ui,sans-serif}
+a{color:var(--link)}
+h1,h2,h3{font-family:Lora,Georgia,serif;font-weight:600;line-height:1.25;margin:0}
+
+/* top bar */
+header{background:var(--bar);position:sticky;top:0;z-index:10}
+header .in{max-width:1200px;margin:0 auto;padding:0 24px;min-height:56px;display:flex;align-items:center;gap:24px}
+.brand{color:#fff;font:600 19px Lora,serif;text-decoration:none;white-space:nowrap}
+header nav{margin-left:auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+header nav::-webkit-scrollbar{display:none}
+header nav a{color:#fff;opacity:.85;text-decoration:none;font-size:15px;font-weight:600;padding:16px 12px;white-space:nowrap;border-bottom:3px solid transparent}
+header nav a:hover,header nav a.on{opacity:1;border-bottom-color:#fff}
+
+/* banner */
+.banner{height:420px;background:#333 center 30%/cover no-repeat;display:flex;align-items:flex-end}
+.banner.small{height:200px}
+.banner .in{max-width:900px;width:100%;margin:0 auto;padding:0 24px 32px}
+.banner h1{color:#fff;font-size:clamp(32px,5vw,48px);text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.banner p{color:#fff;margin:6px 0 0;font-size:18px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+
+/* page */
+main{max-width:900px;margin:0 auto;padding:64px 24px 96px}
+.page{display:none}
+.page.on{display:block}
+main h2{font-size:26px;margin:56px 0 16px}
+main h2:first-child{margin-top:0}
+main h3{font-size:19px;margin:0 0 6px}
+main p{margin:0 0 20px}
+.muted{color:var(--muted);font-size:15px}
+.item{padding:22px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item p{margin:0 0 8px}
+.item ul{margin:8px 0;padding-left:20px}
+
+.intro{display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:start}
+.intro img{width:340px;height:auto;border-radius:6px;display:block}
+.photos{columns:2;column-gap:24px;margin-top:8px}
+.photos figure{margin:0 0 24px;break-inside:avoid}
+.photos img{width:100%;height:auto;display:block;border-radius:6px}
+.photos figcaption{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5}
+.links{margin-top:28px}
+.links a{margin-right:6px}
+.links span{color:var(--muted);margin-right:6px}
+
+footer{border-top:1px solid var(--line);padding:28px 24px;text-align:center;color:var(--muted);font-size:14px}
+
+@media (max-width:760px){
+  .brand{display:none}
+  header nav{margin-left:0}
+  header .in{padding:0 8px}
+  .banner{height:220px}.banner.small{height:140px}
+  .intro{grid-template-columns:1fr;gap:28px}
+  .intro img{width:100%;max-width:340px}
+  .photos{columns:1}
+  main{padding:40px 20px 64px}
+}
+</style>
+</head>
+<body>
+
+<header><div class="in">
+  <a class="brand" href="#home" id="brand"></a>
+  <nav id="menu">
+    <a href="#home">Home</a>
+    <a href="#research">Research</a>
+    <a href="#projects">Projects</a>
+    <a href="#industry">Industry</a>
+    <a href="#talks">Talks</a>
+    <a href="#community">Community</a>
+    <a href="#news">News</a>
+    <a href="#cv">CV</a>
+  </nav>
+</div></header>
+
+<div class="banner" id="banner"><div class="in"><h1 id="bannerTitle"></h1><p id="bannerSub"></p></div></div>
+
+<main>
+  <div class="page" id="home"></div>
+  <div class="page" id="research"></div>
+  <div class="page" id="projects"></div>
+  <div class="page" id="industry"></div>
+  <div class="page" id="talks"></div>
+  <div class="page" id="community"></div>
+  <div class="page" id="news"></div>
+  <div class="page" id="cv"></div>
+</main>
+
+<footer id="foot"></footer>
+
+<script src="data.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ext = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+const titles = {home: SITE.name, research: 'Research', projects: 'Projects', industry: 'Industry', talks: 'Talks', community: 'Community', news: 'News', cv: 'CV'};
+
+$('brand').textContent = SITE.name;
+$('banner').style.backgroundImage = `linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.45)),url("${SITE.banner}")`;
+$('foot').textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
+
+/* HOME */
+$('home').innerHTML = `<div class="intro">
+  <img src="${esc(SITE.photo)}" alt="Portrait of ${esc(SITE.name)}">
+  <div>
+    ${SITE.about.map(p => `<p>${p}</p>`).join('')}
+    <p><strong>Email:</strong> <a href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a></p>
+    <p class="links">${SITE.links.map(l => ext(l.url, l.label)).join('<span>||</span>')}</p>
+  </div></div>`;
+
+/* RESEARCH */
+const pubs = types => SITE.publications.filter(p => types.includes(p.type)).sort((a, b) => b.year - a.year)
+  .map(p => `<div class="item"><h3>${p.link ? ext(p.link, p.title) : esc(p.title)}</h3>
+    <p>${esc(p.authors)}</p><p class="muted"><em>${esc(p.venue)}</em>, ${p.year}</p></div>`).join('');
+$('research').innerHTML = `<h2>Research interests</h2>
+  ${SITE.areas.map(a => `<div class="item"><h3>${esc(a.label)}</h3><p>${esc(a.blurb)}</p></div>`).join('')}
+  <h2>Journal articles</h2>${pubs(['journal'])}
+  <h2>Conference and workshop papers</h2>${pubs(['conference', 'preprint'])}`;
+
+/* PROJECTS */
+$('projects').innerHTML = SITE.projects.map(p => `<div class="item"><h3>${esc(p.title)}</h3>
+    <p>${esc(p.summary)}</p>
+    ${p.details && p.details.length ? `<ul>${p.details.map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
+    ${p.papers ? `<p class="muted">${esc(p.papers)}</p>` : ''}</div>`).join('');
+
+const photos = list => list && list.length ? `<h2>Photos</h2><div class="photos">${list.map(p =>
+  `<figure><img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><figcaption>${esc(p.caption)}</figcaption></figure>`).join('')}</div>` : '';
+
+/* INDUSTRY */
+$('industry').innerHTML = SITE.industry.map(j => `<div class="item"><h3>${j.url ? ext(j.url, j.org) : esc(j.org)}</h3>
+    <p class="muted">${esc(j.role)} · ${esc(j.period)}${j.place ? ' · ' + esc(j.place) : ''}</p>
+    ${j.text ? `<p>${esc(j.text)}</p>` : ''}
+    ${j.bullets && j.bullets.length ? `<ul>${j.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}</div>`).join('');
+
+/* TALKS */
+const years = [...new Set(SITE.talks.map(t => t.year))].sort((a, b) => b - a);
+$('talks').innerHTML = years.map(y => `<h2>${y}</h2>` + SITE.talks.filter(t => t.year === y).map(t =>
+  `<div class="item"><h3>${esc(t.title)}</h3>
+   <p class="muted">${esc(t.kind)} · ${esc(t.event)}${t.place ? ', ' + esc(t.place) : ''}</p></div>`).join('')).join('') + photos(SITE.photos.talks);
+
+/* COMMUNITY */
+$('community').innerHTML = `<h2>Leadership and service</h2>` + SITE.community.map(c =>
+  `<div class="item"><h3>${c.link ? ext(c.link, c.org) : esc(c.org)}</h3>
+   <p class="muted">${esc(c.role)} · ${esc(c.period)}</p><p>${esc(c.text)}</p></div>`).join('') +
+  `<h2>Awards</h2>` + SITE.awards.map(a => `<div class="item"><h3>${esc(a.title)}</h3><p class="muted">${esc(a.date)}</p></div>`).join('') + photos(SITE.photos.community);
+
+/* NEWS */
+const row = n => `<div class="item"><p class="muted">${esc(n.date)}</p><p>${esc(n.text)}</p></div>`;
+const up = SITE.news.filter(n => n.upcoming), past = SITE.news.filter(n => !n.upcoming);
+$('news').innerHTML = (up.length ? `<h2>Upcoming</h2>${up.map(row).join('')}` : '') + `<h2>Recent</h2>${past.map(row).join('')}`;
+
+/* CV */
+$('cv').innerHTML = SITE.cvFile
+  ? `<p>CV: <a href="${esc(SITE.cvFile)}" target="_blank"><strong>${esc(SITE.name)}</strong></a></p>`
+  : `<p>My CV is available on request: <a href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a></p>`;
+
+/* switch pages from the menu */
+function show(){
+  const id = titles[location.hash.slice(1)] ? location.hash.slice(1) : 'home';
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === id));
+  document.querySelectorAll('#menu a').forEach(a => a.classList.toggle('on', a.hash === '#' + id));
+  $('banner').classList.toggle('small', id !== 'home');
+  $('bannerTitle').textContent = titles[id];
+  $('bannerSub').textContent = id === 'home' ? SITE.role : '';
+  document.title = id === 'home' ? SITE.name : `${SITE.name} - ${titles[id]}`;
+  window.scrollTo(0, 0);
+}
+addEventListener('hashchange', show);
+show();
+</script>
+</body>
+</html>
